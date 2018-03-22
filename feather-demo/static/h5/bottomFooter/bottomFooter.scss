@@ -40,6 +40,9 @@ p {
 		content: '';
 		height: 155px;
 	};
+
+	/* 高级用法 一步到位 */
+	min-height: calc(100% - 155px);
 }
 
 .content {
