@@ -1,5 +1,6 @@
 import Layout from '../components/MyLayout.js'
 import Link from 'next/link'
+import Router from 'next/router'
 
 function getPosts () {
   return [
@@ -33,36 +34,63 @@ const PostLink = ({ post }) => (
   </li>
 )
 
-export default () => (
-  <Layout>
-    <h1>My Blog</h1>
-    <ul>
-      {getPosts().map((post) => (
-        <PostLink key={post.id} post={post}/>
-      ))}
-    </ul>
-    <style jsx>{`
-      h1, a {
-        font-family: "Arial";
-      }
+/* Router.beforePopState(({ url, as, options }) => {
+  // I only want to allow these two routes!
+  if (as === "/other") {
+    // Have SSR render bad routes as a 404.
+    window.location.href = '/about'
+    console.log('404 router')
+    return false
+  }
 
-      ul {
-        padding: 0;
-      }
+  return true
+}) */
 
-      li {
-        list-style: none;
-        margin: 5px 0;
-      }
+class Index extends React.Component {
+  static async getInitialProps({req}) {
+    const userAgent = req ? req.headers['user-agent'] : navigator.userAgent
+    return { userAgent }
+  }
 
-      a {
-        text-decoration: none;
-        color: blue;
-      }
+  render() {
+    return (
+      <Layout>
+        <h1>My Blog</h1>
+        <div>
+          Hello World {this.props.userAgent}<br/>
+          Click <span onClick={() => Router.push('/other')}>here</span> to read more
+        </div>
+        <ul>
+          {getPosts().map((post) => (
+            <PostLink key={post.id} post={post}/>
+          ))}
+        </ul>
+        <style jsx>{`
+          h1, a {
+            font-family: "Arial";
+          }
 
-      a:hover {
-        opacity: 0.6;
-      }
-    `}</style>
-  </Layout>
-)
+          ul {
+            padding: 0;
+          }
+
+          li {
+            list-style: none;
+            margin: 5px 0;
+          }
+
+          a {
+            text-decoration: none;
+            color: blue;
+          }
+
+          a:hover {
+            opacity: 0.6;
+          }
+        `}</style>
+      </Layout>
+    )
+  }
+}
+
+export default Index
