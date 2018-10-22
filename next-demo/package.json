@@ -1,0 +1,32 @@
+{
+  "name": "next-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "export": "next export",
+    "analyze": "cross-env ANALYZE=1 next build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@zeit/next-sass": "^1.0.1",
+    "cross-env": "^5.2.0",
+    "express": "^4.16.4",
+    "isomorphic-unfetch": "^3.0.0",
+    "koa": "^2.5.3",
+    "koa-router": "^7.4.0",
+    "next": "^7.0.2",
+    "node-sass": "^4.9.4",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-markdown": "^4.0.3"
+  },
+  "devDependencies": {
+    "webpack-bundle-analyzer": "^3.0.3"
+  }
+}
