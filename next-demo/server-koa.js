@@ -1,33 +1,35 @@
 const Koa = require('koa')
-const app = new Koa()
+const next = require('next')
 const Router = require('koa-router')
 
-// 子路由1
-let oneRouter = new Router()
+const port = parseInt(process.env.PORT, 10) || 3000
+const dev = process.env.NODE_ENV !== 'production'
+const app = next({dev})
+const handle = app.getRequestHandler()
 
-oneRouter.get('/', async (ctx, next) => {
-  ctx.body = '你好，我这里是oneRouter页'
-})
+app.prepare()
+  .then(() => {
+    const server = new Koa()
+    const router = new Router()
 
-// 子路由2
-let twoRouter = new Router()
+    router.get('/p/:id', async ({req, res}) => {
+      const queryParams = {title: req.params.id}
+      await app.render(req, res, '/post', queryParams)
+      ctx.respond = false
+    })
 
-twoRouter.get('/', async (ctx, next) => {
-  ctx.body = '你好, 我这里是twoRouter页'
-}).get('/home', async (ctx , next) => {
-  ctx.body = '你好, 我这里是home页'
-})
+    router.get('*', async ctx => {
+      await handle(ctx.req, ctx.res)
+      ctx.respond = false
+    })
 
-// 装载所有子路由
-let indexRouter = new Router()
+    server.use(async (ctx, next) => {
+      ctx.res.statusCode = 200
+      await next()
+    })
 
-indexRouter.use('/one',oneRouter.routes(), oneRouter.allowedMethods())
-indexRouter.use('/two',twoRouter.routes(), twoRouter.allowedMethods())
-
-app
-  .use(indexRouter.routes())
-  .use(indexRouter.allowedMethods())
-
-app.listen(3333, ()=>{
-  console.log('server is running at http://localhost:3333')
-})
+    server.use(router.routes())
+    server.listen(port, () => {
+      console.log(`> Ready on http://localhost:${port}`)
+    })
+  })

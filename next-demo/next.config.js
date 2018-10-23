@@ -1,7 +1,10 @@
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const { ANALYZE } = process.env
+const withSass = require('@zeit/next-sass')
+const withBundleAnalyzer = require('@zeit/next-bundle-analyzer')
 
-module.exports = {
+
+module.exports = withSass({
   webpack: function (config) {
     if (ANALYZE) {
       config.plugins.push(new BundleAnalyzerPlugin({
@@ -23,4 +26,4 @@ module.exports = {
       '/p/exporting-pages': { page: '/post', query: { title: "Learn to Export HTML Pages" } }
     }
   }
-}
+})

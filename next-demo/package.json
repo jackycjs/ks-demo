@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "node server-koa.js",
     "build": "next build",
-    "start": "cross-env NODE_ENV=production node server.js",
+    "start": "cross-env NODE_ENV=production node server-koa.js",
     "export": "next export",
-    "analyze": "cross-env ANALYZE=1 next build"
+    "analyze-wp": "cross-env ANALYZE=1 next build",
+    "analyze": "BUNDLE_ANALYZE=both next build",
+    "analyze:server": "BUNDLE_ANALYZE=server next build",
+    "analyze:browser": "BUNDLE_ANALYZE=browser next build"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +30,7 @@
     "react-markdown": "^4.0.3"
   },
   "devDependencies": {
+    "@zeit/next-bundle-analyzer": "^0.1.2",
     "webpack-bundle-analyzer": "^3.0.3"
   }
 }

@@ -1,6 +1,7 @@
 import Layout from '../components/MyLayout.js'
 import Link from 'next/link'
 import Router from 'next/router'
+import '../style/index.scss'
 
 function getPosts () {
   return [
@@ -52,13 +53,21 @@ class Index extends React.Component {
     return { userAgent }
   }
 
+  componentDidMount() {
+    console.log('componentDidMount')
+  }
+
+  componentDidUpdata(prevProps) {
+    console.log('prevProps', prevProps, 'props', this.props)
+  }
+
   render() {
     return (
       <Layout>
         <h1>My Blog</h1>
         <div>
           Hello World {this.props.userAgent}<br/>
-          Click <span onClick={() => Router.push('/other')}>here</span> to read more
+          <span onClick={() => Router.push('/?counter=10', { shallow: true })}>Click here</span>
         </div>
         <ul>
           {getPosts().map((post) => (
