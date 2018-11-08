@@ -1,6 +1,6 @@
 const Koa = require('koa')
 const next = require('next')
-const Router = require('koa-router')
+const router = require('./routes')
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -10,17 +10,10 @@ const handle = app.getRequestHandler()
 app.prepare()
   .then(() => {
     const server = new Koa()
-    const router = new Router()
-
-    router.get('/p/:id', async ({req, res}) => {
-      const queryParams = {title: req.params.id}
-      await app.render(req, res, '/post', queryParams)
-      ctx.respond = false
-    })
 
     router.get('*', async ctx => {
       await handle(ctx.req, ctx.res)
-      ctx.respond = false
+      ctx.respond = false 
     })
 
     server.use(async (ctx, next) => {
