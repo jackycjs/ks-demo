@@ -1,6 +1,7 @@
 const Koa = require('koa')
 const next = require('next')
-const router = require('./routes')
+const Router = require('koa-router')
+// const router = require('./routes')
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -10,7 +11,14 @@ const handle = app.getRequestHandler()
 app.prepare()
   .then(() => {
     const server = new Koa()
+    const router = new Router()
 
+    router.get('/p/:id', async ctx => {
+      const queryParams = {title: ctx.params.id}
+      await app.render(ctx.req, ctx.res, '/post', queryParams)
+      ctx.respond = false
+    })
+    
     router.get('*', async ctx => {
       await handle(ctx.req, ctx.res)
       ctx.respond = false 
@@ -22,6 +30,8 @@ app.prepare()
     })
 
     server.use(router.routes())
+    server.use(router.allowedMethods())
+
     server.listen(port, () => {
       console.log(`> Ready on http://localhost:${port}`)
     })
