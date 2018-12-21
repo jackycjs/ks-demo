@@ -2,7 +2,6 @@ import Layout from '../components/Layout'
 import Counter from '../containers/home/counter'
 import Link from 'next/link'
 import Router from 'next/router'
-import '../style/common.scss'
 
 function getPosts () {
   return [
