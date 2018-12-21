@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { Button } from 'antd'
 
 export default class Counter extends Component {
   increment = () => {
@@ -20,9 +19,9 @@ export default class Counter extends Component {
     return (
       <div>
         <h1>Count: <span>{count}</span></h1>
-        <Button onClick={this.increment}>+1</Button>
-        <Button onClick={this.decrement}>-1</Button>
-        <Button onClick={this.reset}>Reset</Button>
+        <button onClick={this.increment}>+1</button>
+        <button onClick={this.decrement}>-1</button>
+        <button onClick={this.reset}>Reset</button>
         <style jsx>{`
           div {
             padding: 0 0 20px 0;
